@@ -24,6 +24,7 @@ public class AuthService {
     private JwtService jwtService;
 
     public @Nullable Object register(RegisterRequest user) {
+        
         //this method will Store user in database, and password encode
 
         if(userRepo.existsByEmail(user.getEmail())){
