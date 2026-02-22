@@ -24,6 +24,7 @@ public class Screen {
     private Long id;
 
     private String name;
+    private Integer totalSeats;
 
     //yaha pe sceen is m : 1 mapping in DB
     @ManyToOne

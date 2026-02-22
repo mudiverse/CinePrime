@@ -25,7 +25,7 @@ public class MovieService {
         newMovie.setGenre(movie.getGenre());
         newMovie.setLanguage(movie.getLanguage());
 
-        return movieRepo.save(newMovie);
+        return movieRepo.save(newMovie);  // use dto to return not the actual entity
     }
 
     public @Nullable Object getAllMovies() {
