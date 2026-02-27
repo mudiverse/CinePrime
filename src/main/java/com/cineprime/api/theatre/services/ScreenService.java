@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cineprime.api.dto.ScreenRequest;
+import com.cineprime.api.dto.ScreenResponse;
 import com.cineprime.api.theatre.entity.Screen;
 import com.cineprime.api.theatre.entity.Theatre;
 import com.cineprime.api.theatre.repository.ScreenRepo;
@@ -35,7 +36,9 @@ public class ScreenService {
         screen1.setTheatre(theatre);
         screen1.setTotalSeats(screen.getTotalSeats());
 
-        return screenRepo.save(screen1);
+        screenRepo.save(screen1);  //return a screen response rather than screen entity
+
+        return new ScreenResponse(screen1.getId(),screen1.getName());
 
     };
 }

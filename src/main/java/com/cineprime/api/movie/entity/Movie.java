@@ -1,9 +1,12 @@
 package com.cineprime.api.movie.entity;
 
+import com.cineprime.api.show.entity.Show;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,5 +28,6 @@ public class Movie {
     private Integer duration; //in minutes
     private String genre;
     private String language; //which language
+
     
 }

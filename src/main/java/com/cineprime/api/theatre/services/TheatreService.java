@@ -18,8 +18,8 @@ public class TheatreService {
         Theatre theatre1 = new Theatre();
         theatre1.setAddress(theatre.getAddress());
         theatre1.setName(theatre.getName());
-        return theatreRepo.save(theatre1);
-
+        theatreRepo.save(theatre1);
+        return "Theatre Saved SuccessFUlly";
     };
 
 }

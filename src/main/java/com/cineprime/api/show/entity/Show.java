@@ -1,5 +1,6 @@
 package com.cineprime.api.show.entity;
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.cineprime.api.movie.entity.Movie;
@@ -28,11 +29,11 @@ public class Show {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long showid;
-    private Time startTime;
-    private Time endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private Integer basePrice;
 
-    //imp relation with show 1 show has movie , 1 show 1 screen bue many show ek theatre, many show of 1movie
+    //imp relation with show 1 show has movie , 1 show 1 screen hue many show ek theatre, many show of 1movie
 
     @ManyToOne
     @JoinColumn(name = "movie_id")

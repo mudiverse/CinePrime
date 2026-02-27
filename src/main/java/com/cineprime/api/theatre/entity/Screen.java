@@ -26,7 +26,7 @@ public class Screen {
     private String name;
     private Integer totalSeats;
 
-    //yaha pe sceen is m : 1 mapping in DB
+    //yaha pe screen is m : 1 mapping in DB
     @ManyToOne
     @JoinColumn(name="theatre_id")
     private Theatre theatre;
