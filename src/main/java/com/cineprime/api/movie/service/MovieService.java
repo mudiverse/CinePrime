@@ -3,6 +3,9 @@ package com.cineprime.api.movie.service;
 import com.cineprime.api.movie.repositories.MovieRepo;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.cineprime.api.movie.entity.Movie;
 
@@ -30,8 +33,12 @@ public class MovieService {
 
     public @Nullable Object getAllMovies() {
        //seach the db and fetch the movies 
+       //use pagination
+
+       Pageable pageable = PageRequest.of(5, 10);
+       Page<Movie> moviPage = movieRepo.findAll(pageable);
        
-       return movieRepo.findAll();//returns a list of movies
+       return movieRepo.findAll();  //returns a list of movies
     }
 
 }

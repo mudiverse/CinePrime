@@ -27,7 +27,7 @@ public class MovieController {
 
 
 
-    //getter method wich fetches the Movie for the User in Fronntend (Get)
+    //getter method wich fetches the Movie for the User in Fronntend (Get) // Paginated Outputs
     @GetMapping
     public ResponseEntity<?>getMoviesHandler(){
         return ResponseEntity.ok(movieService.getAllMovies());

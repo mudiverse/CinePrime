@@ -25,7 +25,7 @@ public class ShowController {
         return ResponseEntity.ok(showService.createShow(show));
     }
 
-    // enpoints for users to get shows by movies id
+    // enpoints for users to get shows by movies id // many shows so Paginated view
 
     @GetMapping("/api/movies/{movieId}/shows")
     public List<ShowResponse> getShowsByMovieHandler(@PathVariable Long movieId) {
