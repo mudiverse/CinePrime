@@ -1,11 +1,8 @@
 package com.cineprime.api.booking.entity;
-
 import java.sql.Timestamp;
-
 import com.cineprime.api.common.constants.SeatBookingStatus;
 import com.cineprime.api.show.entity.Show;
 import com.cineprime.api.user.entity.User;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -35,14 +32,11 @@ public class Booking {
     //One show can have many bookings
     @ManyToOne
     private Show show;
-
-    //fields
+    //fields    
     private Double totalAmount;
-
+    
     @Enumerated(EnumType.STRING)
     private SeatBookingStatus status;
-
     private String idempotencyKey;
-
     private Timestamp createdAt;
 }
