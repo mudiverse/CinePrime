@@ -1,6 +1,9 @@
 package com.cineprime.api.booking.services;
 import java.util.List;
 import java.util.Optional;
+
+import javax.management.RuntimeErrorException;
+
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,13 +51,12 @@ public class BookingService {
     public @Nullable Object bookSeats(Long userId, BookingRequest request, String idempodencyKey) {
        
        //check idempotency key to avoid duplicattions
-       Optional<IdempotencyRecord> existing = Optional.ofNullable(idempotencyRepo.findByIdempotencyKey(idempodencyKey));
+       IdempotencyRecord existing =idempotencyRepo.findByIdempotencyKey(idempodencyKey);
     
        //agar exist krta hai to purana return hoga 
-       if(existing.isPresent()){
-        //TODO the logic
-            return "True";
-       }
+       if(existing !=null && "COMPLETED".equals(existing.getStatus())){
+         return existing.getResponseBody();
+        }
 
        //create a processing record if not exists already
        IdempotencyRecord record = new IdempotencyRecord();
@@ -65,14 +67,20 @@ public class BookingService {
        
         //fetch the seats from the request
        List<Seat> seats = seatRepo.findAllById(request.getSeatIds());
+
+       if(seats.isEmpty()){
+        throw new RuntimeException("Seats not found!");
+       }
        
        //need to validate if the seats 
-       validateShow(seats, request.getShowId());
+       if(!validateShow(seats, request.getShowId())){
+            throw new RuntimeException("Seats belong to different Show!");
+        }
+      
        //now chek if the seats requested are available
-
        for(Seat seat:seats){
          if(seat.getStatusEnum() != BookingStatus.AVAILABLE){
-            throw new RuntimeException("Seat Not Available") ; //implement a SeatNotFoundException
+            throw new RuntimeException("Seat Not Available/BOOKED") ; //TODO:implement a SeatNotFoundException
          }
        }
 
@@ -80,18 +88,17 @@ public class BookingService {
        for(Seat seat:seats){
         seat.setStatusEnum(BookingStatus.BOOKED);
        }
-
        //save all the seats
        seatRepo.saveAll(seats);
+
        
        ///IMP Create BOOKing and save it
-       
        Booking booking = new Booking();
        
        booking.setUser(userRepo.findById(userId).orElseThrow());
        booking.setShow(showRepo.findById(request.getShowId()).orElseThrow());
        booking.setStatus(SeatBookingStatus.CONFIRMED);
-       booking.setTotalAmount(1000.100);//dummy value //TODO CHange the calc by using a function
+       booking.setTotalAmount(1000.50);//dummy value //TODO CHange the calc by using a function
 
        bookingRepo.save(booking);
 
@@ -99,7 +106,7 @@ public class BookingService {
        //now create the BOOKing Seat
        for(Seat seat:seats){
         BookingSeat bs = new BookingSeat();
-        bs.setBooking(booking);  // saatr bookedSeat ko BOOKIng se map karenge
+        bs.setBooking(booking);  // saari bookedSeat ko BOOKIng se map karenge
         bs.setSeat(seat);
         //save each of the bs
         bookingSeatRepo.save(bs);
@@ -111,18 +118,17 @@ public class BookingService {
 
        //save the idempodency res
        record.setStatus("COMPLETED");
-       record.setResponseBody("Booking A, TIne etc");
+       record.setResponseBody("Booking Successful ID:"+booking.getBookingId());
 
        idempotencyRepo.save(record);
-
-        return "Booking Response here";
+        return "Booking Successful";
     }
 
 
     public boolean validateShow(List<Seat>seats, Long Id){
         //check if all seats have same Id/show if
         for(Seat seat :seats){
-            if(seat.getShow().getShowid() !=Id){
+            if(!seat.getShow().getShowid().equals(Id)){
                 return false;//if any seat belong to diff show id then false
             }
         }

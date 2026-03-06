@@ -46,6 +46,7 @@ public class SeatService {
         //using stream api to convert to a seatrespone
         return seats.stream()
             .map(seat-> new SeatResponse(
+                seat.getId(),
                 seat.getSeatNumber(),
                 seat.getStatusEnum()
             ))

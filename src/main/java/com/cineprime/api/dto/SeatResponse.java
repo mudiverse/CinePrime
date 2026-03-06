@@ -12,6 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor@NoArgsConstructor
 @ToString
 public class SeatResponse {
+    public Long seatId;
     public String seatNumber;
     public BookingStatus bookingStatus;
 }
