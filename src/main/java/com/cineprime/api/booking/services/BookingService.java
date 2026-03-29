@@ -3,7 +3,6 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.management.RuntimeErrorException;
-
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +15,7 @@ import com.cineprime.api.booking.repositories.BookingSeatRepo;
 import com.cineprime.api.booking.repositories.IdempotencyRepo;
 import com.cineprime.api.common.constants.BookingStatus;
 import com.cineprime.api.common.constants.SeatBookingStatus;
+import com.cineprime.api.common.exception.SeatAlreadyBookedException;
 import com.cineprime.api.dto.BookingRequest;
 import com.cineprime.api.seat.entity.Seat;
 import com.cineprime.api.seat.repository.SeatRepo;
@@ -80,7 +80,7 @@ public class BookingService {
        //now chek if the seats requested are available
        for(Seat seat:seats){
          if(seat.getStatusEnum() != BookingStatus.AVAILABLE){
-            throw new RuntimeException("Seat Not Available/BOOKED") ; //TODO:implement a SeatNotFoundException
+            throw new SeatAlreadyBookedException("Seat Not Available or Already Booked!,Try other seat") ; //TODO:implement a SeatNotFoundException
          }
        }
 
