@@ -16,34 +16,35 @@ public class ReccomendationService {
     @Autowired
     private MovieRepo movieRepository;
 
-    private final WebClient webClient = WebClient.create("http://localhost:3000"); // Assuming ML service is running on this URL
+    private final WebClient webClient = WebClient.create("http://127.0.0.1:8000"); // Assuming ML service is running on this URL
 
-    public List<MovieResponse> getRecommendation(Long userId) {
+    public List<MovieResponse> getRecommendation(Long movieId) {
         //ye method user ke liye movie recommendations return karega
         //will bring all movies for userId and return list of MovieResponse
-        //right now we will show dummy movies now for all, later ML
+       
         
         //TODO: get list of movies 1: Call ML (Dummy)
-        List<Long> recommendedMovie = callMlService(userId);
+        List<Long> recommendedMovie = callMlService(movieId);
 
-        //fetch from DB 
+        //fetch from DB , all the movies whose id is in recommendedMovie list
         List<Movie> movies = movieRepository.findAllById(recommendedMovie);
         
         //convert to MovieResponse
 
         return  movies.stream().map(movie -> {
             MovieResponse response = new MovieResponse();
+            response.setMovieId(movie.getId());
             response.setGenre(movie.getGenre());
             response.setTitle(movie.getTitle());
             return response;
         }).toList();
     }
 
-    private List<Long> callMlService(Long userId) {
+    private List<Long> callMlService(Long movieId) {
         //call the ml api using webCLient
         
         return webClient.get()
-            .uri("/recommend?userId="+userId) //imp to keep the name same as in ML service
+            .uri("/recommend/{id}", movieId) //imp to keep the name same as in ML service
             .retrieve()
             .bodyToFlux(Long.class)
             .collectList()

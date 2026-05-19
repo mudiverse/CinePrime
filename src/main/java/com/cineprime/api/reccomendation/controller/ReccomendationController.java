@@ -17,10 +17,10 @@ public class ReccomendationController {
     @Autowired
     private  ReccomendationService reccomendationService;
 
-    @GetMapping("/{userId}")
-    public List<MovieResponse> getReccomendations(@PathVariable Long userId) {
+    @GetMapping("/{movieId}")
+    public List<MovieResponse> getReccomendations(@PathVariable Long movieId) {
         // Logic to fetch and return movie recommendations
-        return reccomendationService.getRecommendation(userId);
+        return reccomendationService.getRecommendation(movieId);
     }
 
 
