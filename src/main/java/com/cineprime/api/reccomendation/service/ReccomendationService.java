@@ -16,14 +16,14 @@ public class ReccomendationService {
     @Autowired
     private MovieRepo movieRepository;
 
-    private final WebClient webClient = WebClient.create("http://127.0.0.1:8000"); // Assuming ML service is running on this URL
+    private final WebClient webClient = WebClient.create("https://ml-recommendation-service-y13g.onrender.com"); // Assuming ML service is running on this URL
 
     public List<MovieResponse> getRecommendation(Long movieId) {
         //ye method user ke liye movie recommendations return karega
         //will bring all movies for userId and return list of MovieResponse
        
         
-        //TODO: get list of movies 1: Call ML (Dummy)
+        //get list of movies 1: Call ML  Service returns a list of MoviIDs
         List<Long> recommendedMovie = callMlService(movieId);
 
         //fetch from DB , all the movies whose id is in recommendedMovie list
@@ -49,9 +49,6 @@ public class ReccomendationService {
             .bodyToFlux(Long.class)
             .collectList()
             .block();
-
-        //right now dummy return karega
-        // return List.of(1L, 2L, 3L);
     }
 
 
