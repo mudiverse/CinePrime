@@ -41,4 +41,10 @@ public class MovieService {
        return movieRepo.findAll();  //returns a list of movies
     }
 
+    public @Nullable Object getMovieById(Long id) {
+        // TODO Auto-generated method stub
+
+        return  movieRepo.findById(id).orElseThrow(()-> new RuntimeException("Movie not found with this id"));
+    }
+
 }

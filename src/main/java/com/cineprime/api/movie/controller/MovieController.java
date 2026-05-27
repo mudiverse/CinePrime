@@ -3,6 +3,7 @@ package com.cineprime.api.movie.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +28,15 @@ public class MovieController {
 
 
 
-    //getter method wich fetches the Movie for the User in Fronntend (Get) // Paginated Outputs
+    //getter method wich fetches the Movie for the User in Fronntend (Get) //TODO: Paginated Outputs
     @GetMapping
     public ResponseEntity<?>getMoviesHandler(){
         return ResponseEntity.ok(movieService.getAllMovies());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?>getMovieByIdHandler(@PathVariable Long id){
+        return ResponseEntity.ok(movieService.getMovieById(id));
     }
 
 

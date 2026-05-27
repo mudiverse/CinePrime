@@ -20,6 +20,13 @@ public class TheatreService {
         theatre1.setName(theatre.getName());
         theatreRepo.save(theatre1);
         return "Theatre Saved SuccessFUlly";
+    }
+
+    public Theatre getTheatreById(Long idLong) {
+        Theatre theatre = theatreRepo.findById(idLong).orElseThrow(() -> 
+        new RuntimeException("Theatre not found with id: " + idLong));
+        
+        return theatre;
     };
 
 }

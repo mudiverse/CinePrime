@@ -16,5 +16,5 @@ public class ShowResponse {
      private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer basePrice;
-    private String screenName;
+    private Long screenId;
 }

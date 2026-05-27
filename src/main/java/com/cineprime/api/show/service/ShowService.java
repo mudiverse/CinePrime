@@ -70,7 +70,7 @@ public class ShowService {
             show.getStartTime(),
             show.getEndTime(),
             show.getBasePrice(),
-            show.getScreen().getName()
+            show.getScreen().getId()
         ))
         .toList();
     }

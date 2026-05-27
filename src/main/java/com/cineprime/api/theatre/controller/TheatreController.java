@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.cineprime.api.theatre.entity.Theatre;
 import com.cineprime.api.theatre.services.TheatreService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/theatres")
@@ -20,5 +24,12 @@ public class TheatreController {
     public ResponseEntity<?>createTheatreHandler(@RequestBody Theatre theatre){
         return ResponseEntity.ok(theatreService.createTheatre(theatre));
     }
+
+    //get theatres by id
+    @GetMapping("/{id}")
+    public Theatre getMethodName(@PathVariable Long idLong) {
+        return theatreService.getTheatreById(idLong);
+    }
+    
 
 }
